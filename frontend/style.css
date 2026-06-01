@@ -1,0 +1,45 @@
+body{
+    font-family: Arial;
+    background:#f4f4f4;
+}
+
+.container{
+    width:700px;
+    margin:auto;
+    margin-top:40px;
+}
+
+h1{
+    text-align:center;
+}
+
+.form{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+input{
+    flex:1;
+    padding:10px;
+}
+
+button{
+    padding:10px 20px;
+    cursor:pointer;
+}
+
+ul{
+    list-style:none;
+    padding:0;
+}
+
+li{
+    background:white;
+    margin:10px 0;
+    padding:15px;
+    border-radius:8px;
+
+    display:flex;
+    justify-content:space-between;
+}

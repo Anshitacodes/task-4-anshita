@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Student Management System</title>
+</head>
+
+<body>
+
+<h1>Student Management System</h1>
+
+<input type="text" id="name" placeholder="Enter Name">
+
+<input type="text" id="course" placeholder="Enter Course">
+
+<button id="addBtn">Add Student</button>
+
+<h2>Student List</h2>
+
+<ul id="studentList"></ul>
+
+<script>
+
+const API_URL =
+"http://localhost:5000/api/students";
+
+async function loadStudents() {
+
+    const response =
+    await fetch(API_URL);
+
+    const students =
+    await response.json();
+
+    const list =
+    document.getElementById("studentList");
+
+    list.innerHTML = "";
+
+    students.forEach(student => {
+
+        const li =
+        document.createElement("li");
+
+        li.innerHTML =
+        `
+        ${student.name}
+        (${student.course})
+
+        <button data-id="${student.id}">
+        Delete
+        </button>
+        `;
+
+        list.appendChild(li);
+    });
+
+    document
+    .querySelectorAll("button[data-id]")
+    .forEach(btn => {
+
+        btn.onclick = async () => {
+
+            await fetch(
+            `${API_URL}/${btn.dataset.id}`,
+            {
+                method: "DELETE"
+            });
+
+            loadStudents();
+        };
+    });
+}
+
+document
+.getElementById("addBtn")
+.onclick = async () => {
+
+    const name =
+    document.getElementById("name").value;
+
+    const course =
+    document.getElementById("course").value;
+
+    if (!name || !course) {
+        alert("Fill all fields");
+        return;
+    }
+
+    await fetch(API_URL, {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+            name,
+            course
+        })
+    });
+
+    document.getElementById("name").value = "";
+    document.getElementById("course").value = "";
+
+    loadStudents();
+};
+
+loadStudents();
+
+</script>
+
+</body>
+</html>
